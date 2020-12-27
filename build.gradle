@@ -1,0 +1,42 @@
+plugins {
+    id 'java'
+    id 'maven-publish'
+}
+
+group 'by.halatsevich.utils'
+version '1.3.5'
+targetCompatibility = "1.8"
+sourceCompatibility = "1.8"
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.10'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.+'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
+}
+
+jar{
+    manifest{
+        attributes("Name":project.name, "Version":project.version)
+    }
+}
+test{
+    useJUnitPlatform()
+}
+
+publishing{
+    publications{
+        maven(MavenPublication){
+            groupId = project.group
+            artifactId = project.name
+            version = project.version
+
+            from components.java
+        }
+    }
+}
+
+build.dependsOn publishToMavenLocal
